@@ -3,6 +3,7 @@ from django.db import models
 
 User = get_user_model()
 
+
 class Group(models.Model):
     title = models.CharField(max_length=200, null=True, blank=True)
     slug = models.SlugField(unique=True, null=True, blank=True)
@@ -10,6 +11,7 @@ class Group(models.Model):
 
     def __str__(self):
         return self.title
+
 
 class Post(models.Model):
     text = models.TextField()
@@ -31,6 +33,7 @@ class Post(models.Model):
     def __str__(self):
         return self.text[:50]
 
+
 class Comment(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='comments')
@@ -41,6 +44,7 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-created']
+
 
 class Follow(models.Model):
     user = models.ForeignKey(
@@ -53,11 +57,11 @@ class Follow(models.Model):
         on_delete=models.CASCADE,
         related_name='following'
     )
-    
+
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['user', 'following'], 
+                fields=['user', 'following'],
                 name='unique_follow'
             )
         ]

@@ -4,10 +4,12 @@ from posts.models import Comment, Post, Follow, Group
 
 User = get_user_model()
 
+
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
         fields = '__all__'
+
 
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
@@ -19,6 +21,7 @@ class PostSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('author',)
 
+
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
         slug_field='username', read_only=True
@@ -28,6 +31,7 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = '__all__'
         read_only_fields = ('author', 'post')
+
 
 class FollowSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(
@@ -49,9 +53,11 @@ class FollowSerializer(serializers.ModelSerializer):
         following = data['following']
 
         if user == following:
-            raise serializers.ValidationError("Нельзя подписаться на самого себя.")
+            raise serializers.ValidationError("Нельзя подписаться " \
+            "на самого себя.")
         if Follow.objects.filter(user=user, following=following).exists():
-            raise serializers.ValidationError("Вы уже подписаны на этого пользователя.")
+            raise serializers.ValidationError("Вы уже подписаны " \
+            "на этого пользователя.")
         return data
 
     def create(self, validated_data):

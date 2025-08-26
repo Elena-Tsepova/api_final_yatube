@@ -1,10 +1,13 @@
 from rest_framework import viewsets, filters
-from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from posts.models import Post, Comment, Follow, Group
-from .serializers import PostSerializer, CommentSerializer, FollowSerializer, GroupSerializer
+from .serializers import PostSerializer, CommentSerializer
+from .serializers import FollowSerializer, GroupSerializer
 from .permissions import IsAuthorOrReadOnly
 from django.shortcuts import get_object_or_404
+
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Group.objects.all()
@@ -23,8 +26,9 @@ class PostViewSet(viewsets.ModelViewSet):
     # пагинация включена по умолчанию
 
     def list(self, request, *args, **kwargs):
-        # Если в запросе есть параметры пагинации — возвращаем пагинированный ответ
-        if 'limit' in request.query_params or 'offset' in request.query_params or 'page' in request.query_params:
+        if ('limit' in request.query_params or 
+            'offset' in request.query_params or 
+            'page' in request.query_params):
             return super().list(request, *args, **kwargs)
         # Иначе возвращаем обычный список без пагинации
         queryset = self.filter_queryset(self.get_queryset())
@@ -33,7 +37,6 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
-
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -53,6 +56,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         queryset = self.filter_queryset(self.get_queryset())
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
 
 class FollowViewSet(viewsets.ModelViewSet):
     serializer_class = FollowSerializer

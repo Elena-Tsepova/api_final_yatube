@@ -7,11 +7,15 @@ app_name = 'posts'
 router = DefaultRouter()
 router.register(r'posts', PostViewSet, basename='posts')
 router.register(r'groups', GroupViewSet, basename='group')
-router.register(r'posts/(?P<post_id>\d+)/comments', CommentViewSet, basename='comments')
+router.register(r'posts/(?P<post_id>\d+)/comments',
+                CommentViewSet, basename='comments')
 
 urlpatterns = [
     path('', include(router.urls)),
-    # Для комментариев сделаем вложенный маршрут с post_id
-    path('posts/<int:post_id>/comments/', CommentViewSet.as_view({'get': 'list', 'post': 'create'}), name='post-comments'),
-    path('posts/<int:post_id>/comments/<int:pk>/', CommentViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='post-comment-detail'),
+    path('posts/<int:post_id>/comments/',
+         CommentViewSet.as_view({'get': 'list', 'post': 'create'}),
+         name='post-comments'),
+    path('posts/<int:post_id>/comments/<int:pk>/',
+         CommentViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}),
+         name='post-comment-detail'),
 ]

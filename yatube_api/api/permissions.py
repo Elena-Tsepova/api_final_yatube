@@ -1,5 +1,6 @@
 from rest_framework import permissions
 
+
 class IsAuthorOrReadOnly(permissions.BasePermission):
     """
     Разрешить редактирование только автору, чтение для всех.
