@@ -17,7 +17,7 @@ posts_router.register(r'comments', CommentViewSet, basename='comments')
 urlpatterns = [
     # JWT эндпоинты
     path('jwt/create/', TokenObtainPairView.as_view(),
-        name='token_obtain_pair'),
+         name='token_obtain_pair'),
     path('jwt/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('jwt/verify/', TokenVerifyView.as_view(), name='token_verify'),
 

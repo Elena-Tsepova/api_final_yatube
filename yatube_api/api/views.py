@@ -26,9 +26,9 @@ class PostViewSet(viewsets.ModelViewSet):
     # пагинация включена по умолчанию
 
     def list(self, request, *args, **kwargs):
-        if ('limit' in request.query_params or 
-            'offset' in request.query_params or 
-            'page' in request.query_params):
+        if ('limit' in request.query_params
+                or 'offset' in request.query_params
+                or 'page' in request.query_params):
             return super().list(request, *args, **kwargs)
         # Иначе возвращаем обычный список без пагинации
         queryset = self.filter_queryset(self.get_queryset())
