@@ -54,10 +54,10 @@ class FollowSerializer(serializers.ModelSerializer):
 
         if user == following:
             raise serializers.ValidationError("Нельзя подписаться "
-                "на самого себя.")
+                                              "на самого себя.")
         if Follow.objects.filter(user=user, following=following).exists():
             raise serializers.ValidationError("Вы уже подписаны "
-                "на этого пользователя.")
+                                              "на этого пользователя.")
         return data
 
     def create(self, validated_data):
