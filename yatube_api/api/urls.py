@@ -32,5 +32,5 @@ urlpatterns = [
                                  'put': 'update',
                                  'patch': 'partial_update',
                                  'delete': 'destroy'}),
-        name='post-comments-detail'),
+         name='post-comments-detail'),
 ]
